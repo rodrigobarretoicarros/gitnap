@@ -7,32 +7,32 @@ BITBUCKET_AUTH="Authorization: Basic $(echo -n "$BITBUCKET_USER:$BITBUCKET_APPWD
 
 
 function delete_bitbucket_repo() {
-    local REPO
-    local WORKSPACE
+    local repo
+    local workspace
     local endpoint
     local response
     
     # Name of repository
-    REPO="$1"
+    repo="$1"
     
     # Checks if the parameter was provided or use the name of the current directory
-    if [[ -z "$REPO" ]]; then
-        REPO=$(basename "$PWD")
+    if [[ -z "$repo" ]]; then
+        repo=$(basename "$PWD")
     fi
 
     # Name of workspace
-    WORKSPACE="$2"
+    workspace="$2"
     
     # Checks if the parameter was provided or use the default
-    if [[ -z "$WORKSPACE" ]]; then
-        WORKSPACE="$DEF_WORKSPACE"
+    if [[ -z "$workspace" ]]; then
+        workspace="$DEF_WORKSPACE"
     fi
         
     # Construct API Endpoint
-    endpoint="https://api.bitbucket.org/2.0/repositories/$WORKSPACE/$REPO"
+    endpoint="https://api.bitbucket.org/2.0/repositories/$workspace/$repo"
 
     # Confirm deletion before proceeding
-    echo "Are you sure you want to delete the repository '$REPO' (y/N)?"
+    echo "Are you sure you want to delete the repository '$repo' (y/N)?"
     read -r confirmation
     
     if [[ $confirmation =~ ^[Yy]$ ]]; then

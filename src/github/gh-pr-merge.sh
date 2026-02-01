@@ -10,8 +10,8 @@ source "$GITNAP/utils/format_pullrequest.sh"
 
 function merge_github_pullrequest() {
     local pr
-    local REPO
-    local OWNER
+    local repo
+    local owner
     local pr_title
     local pr_body
     local source_branch
@@ -30,28 +30,28 @@ function merge_github_pullrequest() {
     fi
         
     # Name of repository
-    REPO="$2"
+    repo="$2"
     
     # Verifica se o parâmetro foi fornecido
-    if [[ -z "$REPO" ]]; then
+    if [[ -z "$repo" ]]; then
         # Se não foi fornecido, utiliza o nome do diretório atual
-        REPO=$(basename "$PWD")
+        repo=$(basename "$PWD")
     fi
 
     # Repo owner
-    OWNER="$3"
+    owner="$3"
     
     # Verifica se o parâmetro foi fornecido
-    if [[ -z "$OWNER" ]]; then
+    if [[ -z "$owner" ]]; then
         # Se não foi fornecido, utiliza o padrão definido em auth.sh
-        OWNER="$DEF_GH_OWNER"
+        owner="$DEF_GH_OWNER"
     fi
         
     # Create the JSON payload for the repository
     payload='{"merge_method":"squash"}'
 
     # Construct URL endpoint
-    pr_endpoint="$(build_gh_endpoint "PR" "$OWNER" "$REPO")"
+    pr_endpoint="$(build_gh_endpoint "PR" "$owner" "$repo")"
     endpoint="$pr_endpoint/$pr/merge"
     
     # Create the repository using curl

@@ -3,8 +3,8 @@ set -euo pipefail
 
 
 function edit_github_repo() {
-    local REPO
-    local OWNER
+    local repo
+    local owner
     local new_description
     local payload
     local endpoint
@@ -20,26 +20,26 @@ function edit_github_repo() {
     fi
 
     # Name of repository
-    REPO="$2"
+    repo="$2"
     
     # Checks if the parameter was provided or use the name of the current directory
-    if [[ -z "$REPO" ]]; then
-        REPO=$(basename "$PWD")
+    if [[ -z "$repo" ]]; then
+        repo=$(basename "$PWD")
     fi
     
     # Repo owner
-    OWNER="$3"
+    owner="$3"
     
     # Checks if the parameter was provided or use the default
-    if [[ -z "$OWNER" ]]; then
-        OWNER="$DEF_GH_OWNER"
+    if [[ -z "$owner" ]]; then
+        owner="$DEF_GH_OWNER"
     fi
 
     # Create the JSON payload for the repository
     payload='{"description": "'"$new_description"'"}'
     
     # Construct API Endpoint
-    endpoint="https://api.github.com/repos/$OWNER/$REPO"
+    endpoint="https://api.github.com/repos/$owner/$repo"
     
     # Edit the repository using curl
     response=$(curl --proto "=https" --tlsv1.2 -sSf -L -X PATCH "$endpoint" \
